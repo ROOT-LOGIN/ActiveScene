@@ -1,0 +1,71 @@
+// Eyereach.idl : IDL source for Eyereach
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (Eyereach.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+/* MIDL Interface */
+[
+	uuid(0EB8D5A5-CC53-4000-8C07-5CBEF383BE83),
+	version(1.0)
+]
+interface IEyereachControl : IUnknown {
+    HRESULT Run(LPCWSTR filepath);
+    HRESULT Stop(void);
+    HRESULT Play(LPCWSTR filepath);
+    HRESULT Pause(void);
+    HRESULT SetVolume(LONG volume);
+    HRESULT SetDuration(float start, float end);
+
+    HRESULT setPrefDWORD(DWORD dwPrefId, int iMonitor, DWORD value);
+    HRESULT getPrefDWORD(DWORD dwPrefId, int iMonitor, [out] DWORD* pValue);
+
+    HRESULT setPrefString(DWORD dwPrefId, int iMonitor, [in, string] BSTR value);
+    HRESULT getPrefString(DWORD dwPrefId, int iMonitor, [out, string] BSTR* pValue);
+/*
+    HRESULT setPrefBLOB(DWORD dwPrefId, [in] SAFEARRAY(BYTE) value);
+    HRESULT getPrefBLOB(DWORD dwPrefId, [out] SAFEARRAY(BYTE)* pValue);
+*/
+};
+
+[
+	uuid(03CEDA91-9743-41EB-8A6F-4F5DAD10523B),
+	version(1.0)
+]
+interface IEyereachPrefUI : IUnknown {
+    HRESULT Initialize(IEyereachControl* pControl);
+};
+
+[
+	uuid(39683963-D12A-4DB4-B4FC-99C223CE93E2),
+	version(1.0),
+]
+library EyereachTypelib
+{
+	importlib("stdole2.tlb");
+
+    enum PrefId
+    {
+        Pref_RenderFile,
+        Pref_ClipboxLeft,
+        Pref_ClipboxTop,
+        Pref_ClipboxRight,
+        Pref_ClipboxBottom,
+        Pref_RotateAngle,
+        Pref_ViewMode,
+        Pref_HorzMirrorMode,
+        Pref_VertMirrorMode,
+        Pref_CellCount,
+
+        Pref_CustomUsage = 0x50000000,
+
+        Pref_FORCEDWORD = 0xFFFFFFFF
+    };
+
+    interface IEyereachControl;    
+    interface IEyereachPrefUI;
+};
+

@@ -1,0 +1,24 @@
+HKCR 
+{
+    NoRemove CLSID 
+    {
+        ForceRemove {052E8567-05F3-4710-BFC2-538838702891} = s 'Eyereach Context Menu'
+        {
+            InprocServer32 = s '%MODULE%' 
+            {
+                val 'ThreadingModel' = s 'Apartment'
+            }
+        }
+    }
+
+    NoRemove DesktopBackground
+    {
+        NoRemove shellex
+        {
+            NoRemove ContextMenuHandlers
+            {
+                ForceRemove EyereachContextMenu = s '{052E8567-05F3-4710-BFC2-538838702891}'
+            }
+        }
+    }
+}
