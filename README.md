@@ -1,5 +1,9 @@
 # ActiveScene
 
+<B>The code is base on the dshowplay sample in windows sdk sample</B>
+
+=====================================
+
 <B>This is a Windows DreamScene Implement.</B><br />
 
 =====================================
