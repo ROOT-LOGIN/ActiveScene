@@ -220,10 +220,10 @@ Array<DISPLAY_DEVICE>* GetAllDisplayDevices(void);
 /// <summary>
 /// Helper class for reading information from a MONITORINFO.
 /// </summary>
-struct MonitorWrap : MONITORINFO
+struct MonitorWrap : MONITORINFOEX
 {
 public:
-    MonitorWrap(void) { cbSize = sizeof(MONITORINFO); }
+    MonitorWrap(void) { cbSize = sizeof(MONITORINFOEX); }
 
     int getMonitorCount(void) {
         int dw = 0;
@@ -231,13 +231,29 @@ public:
         return dw;
     }
 
-    void Fill(HWND hwnd) {
+    // due to the dx coordinate-system is what we see on windows-display-setting.
++    // the virtual screen's left-top may not (0,0)
++    // we must adjust to (0,0)
++    void normalize()
++    {
++        int vx = abs(GetSystemMetrics(SM_XVIRTUALSCREEN));
++        int vy = abs(GetSystemMetrics(SM_YVIRTUALSCREEN));
++
++        this->rcMonitor.left += vx;
++        this->rcMonitor.right += vx;
++        this->rcMonitor.top += vy;
++        this->rcMonitor.bottom += vy;
++    }
++
+    void Fill(HWND hwnd, bool normz = true) {
         GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTOPRIMARY), this);
+        if (normz) normalize();
     }
 
-    void Fill(int i) {
+    void Fill(int i, bool normz = true) {
         this->rcWork.left = i;        
         EnumDisplayMonitors(NULL, NULL, MonitorEnumProc4Fill, (LPARAM)this);
+        if (normz) normalize();
     }
 
     int indexFromCursor(void) {
