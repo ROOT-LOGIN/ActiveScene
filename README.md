@@ -16,7 +16,7 @@ https://www.codeproject.com/Articles/856020/Draw-Behind-Desktop-Icons-in-Windows
 
 =====================================
 
-I am very love "WIndows DreamScene" which release with "Windows Vista",
+I am very love "Windows DreamScene" which release with "Windows Vista",
 but it has been deprecated since windows 7.
 I'm decide to implement by myself, and finally it's done.
 
